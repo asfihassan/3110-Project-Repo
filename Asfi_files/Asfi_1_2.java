@@ -1,6 +1,4 @@
-// Asfi Hassan 110145259
-// Improved Calculator
-// Suggested filename: Asfi_1.2.java (class name must be Asfi_1_2 to compile)
+
 
 import java.util.Scanner;
 

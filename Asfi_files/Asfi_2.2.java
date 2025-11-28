@@ -1,8 +1,3 @@
-// Save as: Asfi_2.2.java
-// Small changes from V1:
-//  - Slightly faster after each apple
-//  - Added simple restart with 'R' key on Game Over
-//  - Different colors/title to look like a modified version
 
 import java.awt.*;
 import java.awt.event.*;

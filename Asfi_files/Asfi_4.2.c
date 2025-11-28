@@ -1,7 +1,4 @@
-/* Asfi_4.2.c
-   Slightly modified calculator:
-   - Allows multiple operations in a loop until user quits.
-*/
+
 
 #include <stdio.h>
 

@@ -1,4 +1,4 @@
-// Save as: Asfi_2.1.java
+
 
 import java.awt.*;
 import java.awt.event.*;
