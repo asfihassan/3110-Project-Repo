@@ -1,8 +1,4 @@
-/* Asfi_3.2.c
- * Hybrid Merge + Insertion Sort
- * - Can sort ascending or descending
- * - Tracks comparisons and moves
- */
+
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,6 +1,4 @@
-/* Asfi_4.1.c
-   Simple calculator: performs one operation and exits.
-*/
+
 
 #include <stdio.h>
 

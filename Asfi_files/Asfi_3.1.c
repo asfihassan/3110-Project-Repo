@@ -1,6 +1,4 @@
-/* Asfi_3.1.c
- * Hybrid Merge + Insertion Sort (ascending)
- */
+
 
 #include <stdio.h>
 #include <stdlib.h>
