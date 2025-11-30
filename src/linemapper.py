@@ -1,4 +1,4 @@
-# Version 1.1 - folder selection added
+# Version 1.2 - folder listing feature is added
 
 import difflib
 import os
@@ -7,6 +7,23 @@ def load_file(path):
     with open(path, "r", encoding="utf-8", errors="ignore") as f:
         return f.readlines()
 
+def list_files_in_folder(folder):
+    print("\n===Files in selected folder:===\n")
+    try:
+        files = sorted(os.listdir(folder))
+    except FileNotFoundError:
+        print(f"Folder not found: {folder}\n")
+        return
+
+    if not files:
+        print("(No files found)")
+        return
+
+    for f in files:
+        if os.path.isfile(os.path.join(folder, f)):
+            print(" -", f)
+    print()
+    
 def map_files(old_file_path, new_file_path):
     old_lines = load_file(old_file_path)
     new_lines = load_file(new_file_path)
@@ -30,15 +47,15 @@ def map_files(old_file_path, new_file_path):
 def select_folder():
     print("\n=== Folder Selection ===")
     print("1. Use default folder: eclipseTest/")
-    print("2. Use or create a new folder")
+    print("2. Use an existing folder or create a new folder\n")
     
-    choice = input("Choose option (1/2): ")
+    choice = input("Choose option (1/2):\n")
 
     if choice == "1":
-        return "../eclipseTest/"
+        folder_path = "../eclipseTest/"
 
     elif choice == "2":
-        folder_name = input("Enter new folder name: ")
+        folder_name = input("Enter new folder name:\n")
         folder_path = "../" + folder_name + "/"
 
         if not os.path.exists(folder_path):
@@ -47,19 +64,23 @@ def select_folder():
         else:
             print(f"Using existing folder: {folder_path}")
 
-        return folder_path
-
     else:
         print("Invalid choice. Defaulting to eclipseTest/")
-        return "../eclipseTest/"
+        folder_path = "../eclipseTest/"
+
+    # New feature: list files in folder
+    list_files_in_folder(folder_path)
+
+    return folder_path
+
 
 def main():
-    print("=== COMP-3110 Line Mapping Tool ===")
+    print("=== COMP-3110 Line Mapping Tool ===\n")
 
     base_folder = select_folder()
 
-    old_name = input("Enter OLD file name: ")
-    new_name = input("Enter NEW file name: ")
+    old_name = input("Enter OLD file name:\n")
+    new_name = input("Enter NEW file name:\n")
 
     old_path = os.path.join(base_folder, old_name)
     new_path = os.path.join(base_folder, new_name)
