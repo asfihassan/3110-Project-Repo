@@ -1,4 +1,4 @@
-# Version 1.2 - folder selection + colored output
+# Version 1.3 - folder selection + colored output
 
 import difflib
 import os
