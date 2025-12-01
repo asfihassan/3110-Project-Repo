@@ -1,29 +1,20 @@
-# Version 1.2 - folder listing feature is added
+# Version 1.2 - folder selection + colored output
 
 import difflib
 import os
+
+# ANSI COLORS
+GREEN  = "\033[92m"   # unchanged
+RED    = "\033[91m"   # deleted
+YELLOW = "\033[93m"   # replaced
+CYAN   = "\033[96m"   # inserted
+RESET  = "\033[0m"
+
 
 def load_file(path):
     with open(path, "r", encoding="utf-8", errors="ignore") as f:
         return f.readlines()
 
-def list_files_in_folder(folder):
-    print("\n===Files in selected folder:===\n")
-    try:
-        files = sorted(os.listdir(folder))
-    except FileNotFoundError:
-        print(f"Folder not found: {folder}\n")
-        return
-
-    if not files:
-        print("(No files found)")
-        return
-
-    for f in files:
-        if os.path.isfile(os.path.join(folder, f)):
-            print(" -", f)
-    print()
-    
 def map_files(old_file_path, new_file_path):
     old_lines = load_file(old_file_path)
     new_lines = load_file(new_file_path)
@@ -35,27 +26,34 @@ def map_files(old_file_path, new_file_path):
 
     for tag, i1, i2, j1, j2 in opcodes:
         if tag == "equal":
+            # unchanged lines -> GREEN
             for o, n in zip(range(i1, i2), range(j1, j2)):
-                print(f"{o+1} -> {n+1}  (unchanged)")
+                print(f"{GREEN}{o+1} -> {n+1}  (unchanged){RESET}")
+
         elif tag == "replace":
-            print(f"{i1+1}-{i2} replaced with {j1+1}-{j2}")
+            # replaced blocks -> YELLOW
+            print(f"{YELLOW}{i1+1}-{i2} replaced with {j1+1}-{j2}{RESET}")
+
         elif tag == "delete":
-            print(f"{i1+1}-{i2} deleted")
+            # deleted block -> RED
+            print(f"{RED}{i1+1}-{i2} deleted{RESET}")
+
         elif tag == "insert":
-            print(f"{j1+1}-{j2} inserted")
+            # inserted block -> CYAN
+            print(f"{CYAN}{j1+1}-{j2} inserted{RESET}")
 
 def select_folder():
     print("\n=== Folder Selection ===")
     print("1. Use default folder: eclipseTest/")
-    print("2. Use an existing folder or create a new folder\n")
+    print("2. Use or create a new folder")
     
-    choice = input("Choose option (1/2):\n")
+    choice = input("Choose option (1/2): ")
 
     if choice == "1":
-        folder_path = "../eclipseTest/"
+        return "../eclipseTest/"
 
     elif choice == "2":
-        folder_name = input("Enter new folder name:\n")
+        folder_name = input("Enter new folder name: ")
         folder_path = "../" + folder_name + "/"
 
         if not os.path.exists(folder_path):
@@ -64,23 +62,19 @@ def select_folder():
         else:
             print(f"Using existing folder: {folder_path}")
 
+        return folder_path
+
     else:
         print("Invalid choice. Defaulting to eclipseTest/")
-        folder_path = "../eclipseTest/"
-
-    # New feature: list files in folder
-    list_files_in_folder(folder_path)
-
-    return folder_path
-
+        return "../eclipseTest/"
 
 def main():
-    print("=== COMP-3110 Line Mapping Tool ===\n")
+    print("=== COMP-3110 Line Mapping Tool ===")
 
     base_folder = select_folder()
 
-    old_name = input("Enter OLD file name:\n")
-    new_name = input("Enter NEW file name:\n")
+    old_name = input("Enter OLD file name: ")
+    new_name = input("Enter NEW file name: ")
 
     old_path = os.path.join(base_folder, old_name)
     new_path = os.path.join(base_folder, new_name)

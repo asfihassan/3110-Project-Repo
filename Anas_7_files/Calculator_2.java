@@ -4,7 +4,7 @@ public class Calculator_2 {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Calculator v2 (refactored)");
+        System.out.println("Calculator v2");
 
         System.out.print("Enter a: ");
         double first = scanner.nextDouble();
