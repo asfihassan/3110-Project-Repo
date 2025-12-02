@@ -1,4 +1,4 @@
-# Version 1.4 - folder selection + colored output + input validation + comments on sections of code
+# Version 1.4 - folder selection + folder listing + colored output + input validation + comments on sections of code
 import difflib
 import os
 
@@ -24,6 +24,24 @@ def safe_input(prompt):
 def load_file(path):
     with open(path, "r", encoding="utf-8", errors="ignore") as f:
         return f.readlines()
+
+# -------- FOLDER LISTING -------- #
+def list_files_in_folder(folder):
+    print("\n===Files in selected folder:===\n")
+    try:
+        files = sorted(os.listdir(folder))
+    except FileNotFoundError:
+        print(f"Folder not found: {folder}\n")
+        return
+
+    if not files:
+        print("(No files found)")
+        return
+
+    for f in files:
+        if os.path.isfile(os.path.join(folder, f)):
+            print(" -", f)
+    print()
 
 
 # -------- DIFF LOGIC -------- #
@@ -56,7 +74,7 @@ def map_files(old_file_path, new_file_path):
 def select_folder():
     print("\n=== Folder Selection ===")
     print("1. Use default folder: eclipseTest/")
-    print("2. Use or create a new folder")
+    print("2. Use an existing folder or create a new folder")
     
     choice = safe_input("Choose option (1/2): ")
 
@@ -72,6 +90,8 @@ def select_folder():
             os.makedirs(folder_path)
         else:
             print(f"Using existing folder: {folder_path}")
+            list_files_in_folder(folder_path)
+
 
         return folder_path
 
