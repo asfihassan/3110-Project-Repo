@@ -9,3 +9,5 @@ Version 1.1: Added a file chooser in file-mapping code (can choose test folder),
 Version 1.2: Added a folder listing to the file-mapping code so users can see all files in the selected folder before choosing which files to compare, committed by Lara.
 
 Version 1.3: Added colored output to linemapping.py for better output visualization, commited by anas.
+
+Version 1.4: Added input validation to prevent empty file names or invalid folder selections. Improved user prompts and added inline comments explaining each major function. Committed by Kavish.
