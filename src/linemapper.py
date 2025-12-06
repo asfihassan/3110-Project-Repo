@@ -1,12 +1,14 @@
-# Version 1.4 - folder selection + folder listing + colored output + input validation + comments on sections of code
+# Version 1.5 - folder selection + folder listing + colored output + input validation + comments on sections of code + XML OUTPUT ADDED 
 import difflib
 import os
+import xml.etree.ElementTree as ET
+import xml.dom.minidom
 
 # ANSI COLORS
-GREEN  = "\033[92m"   # unchanged
-RED    = "\033[91m"   # deleted
-YELLOW = "\033[93m"   # replaced
-CYAN   = "\033[96m"   # inserted
+GREEN  = "\033[92m"
+RED    = "\033[91m"
+YELLOW = "\033[93m"
+CYAN   = "\033[96m"
 RESET  = "\033[0m"
 
 
@@ -25,9 +27,10 @@ def load_file(path):
     with open(path, "r", encoding="utf-8", errors="ignore") as f:
         return f.readlines()
 
+
 # -------- FOLDER LISTING -------- #
 def list_files_in_folder(folder):
-    print("\n===Files in selected folder:===\n")
+    print("\n=== Files in selected folder: ===\n")
     try:
         files = sorted(os.listdir(folder))
     except FileNotFoundError:
@@ -44,7 +47,62 @@ def list_files_in_folder(folder):
     print()
 
 
-# -------- DIFF LOGIC -------- #
+# -------- PRETTY XML FORMATTER -------- #
+def pretty_print_xml(elem):
+    """Return pretty-printed XML string."""
+    raw = ET.tostring(elem, 'utf-8')
+    parsed = xml.dom.minidom.parseString(raw)
+    return parsed.toprettyxml(indent="  ")
+
+
+# -------- XML OUTPUT LOGIC -------- #
+def generate_xml_output(old_file_path, new_file_path, opcodes):
+    test_name = os.path.splitext(os.path.basename(old_file_path))[0]
+
+    root = ET.Element("TEST")
+    root.set("NAME", test_name)
+
+    version_num = 1
+
+    for tag, i1, i2, j1, j2 in opcodes:
+        version = ET.SubElement(root, "VERSION")
+        version.set("NUMBER", str(version_num))
+        version.set("CHECKED", "TRUE")
+
+        if tag == "equal":
+            for o, n in zip(range(i1, i2), range(j1, j2)):
+                loc = ET.SubElement(version, "LOCATION")
+                loc.set("ORIG", str(o + 1))
+                loc.set("NEW", str(n + 1))
+
+        elif tag == "replace":
+            for orig in range(i1, i2):
+                loc = ET.SubElement(version, "LOCATION")
+                loc.set("ORIG", str(orig + 1))
+                loc.set("NEW", "-1")
+            for new in range(j1, j2):
+                loc = ET.SubElement(version, "LOCATION")
+                loc.set("ORIG", "-1")
+                loc.set("NEW", str(new + 1))
+
+        elif tag == "delete":
+            for orig in range(i1, i2):
+                loc = ET.SubElement(version, "LOCATION")
+                loc.set("ORIG", str(orig + 1))
+                loc.set("NEW", "-1")
+
+        elif tag == "insert":
+            for new in range(j1, j2):
+                loc = ET.SubElement(version, "LOCATION")
+                loc.set("ORIG", "-1")
+                loc.set("NEW", str(new + 1))
+
+        version_num += 1
+
+    return root
+
+
+# -------- DIFF LOGIC + XML -------- #
 def map_files(old_file_path, new_file_path):
     old_lines = load_file(old_file_path)
     new_lines = load_file(new_file_path)
@@ -69,20 +127,36 @@ def map_files(old_file_path, new_file_path):
         elif tag == "insert":
             print(f"{CYAN}{j1+1}-{j2} inserted{RESET}")
 
+    # -------- Generate XML -------- #
+    root = generate_xml_output(old_file_path, new_file_path, opcodes)
+    xml_string = pretty_print_xml(root)
+
+    # -------- SAVE XML TO XML_Outputs FOLDER -------- #
+    output_folder = os.path.join("..", "XML_Outputs")
+    os.makedirs(output_folder, exist_ok=True)
+
+    test_name = os.path.splitext(os.path.basename(old_file_path))[0]
+    output_path = os.path.join(output_folder, f"{test_name}_mapping.xml")
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(xml_string)
+
+    print(f"\nXML saved to: {output_path}")
+
 
 # -------- FOLDER CHOICE -------- #
 def select_folder():
     print("\n=== Folder Selection ===")
     print("1. Use default folder: eclipseTest/")
-    print("2. Use an existing folder or create a new folder")
-    
+    print("2. Use or create another folder")
+
     choice = safe_input("Choose option (1/2): ")
 
     if choice == "1":
         return "../eclipseTest/"
 
     elif choice == "2":
-        folder_name = safe_input("Enter new folder name: ")
+        folder_name = safe_input("Enter folder name: ")
         folder_path = "../" + folder_name + "/"
 
         if not os.path.exists(folder_path):
@@ -91,7 +165,6 @@ def select_folder():
         else:
             print(f"Using existing folder: {folder_path}")
             list_files_in_folder(folder_path)
-
 
         return folder_path
 
