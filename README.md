@@ -11,3 +11,5 @@ Version 1.2: Added a folder listing to the file-mapping code so users can see al
 Version 1.3: Added colored output to linemapping.py for better output visualization, commited by anas.
 
 Version 1.4: Added input validation to prevent empty file names or invalid folder selections. Improved user prompts and added inline comments explaining each major function. Committed by Kavish.
+
+Version 1.5: Added an XML output ,made it so it saves locally in a folder called XML_Outputs (hence if pushed wont look messy, can have it handy to just compare.)
