@@ -13,3 +13,20 @@ Version 1.3: Added colored output to linemapping.py for better output visualizat
 Version 1.4: Added input validation to prevent empty file names or invalid folder selections. Improved user prompts and added inline comments explaining each major function. Committed by Kavish.
 
 Version 1.5: Added an XML output ,made it so it saves locally in a folder called XML_Outputs (hence if pushed wont look messy, can have it handy to just compare.)-kavish
+
+version 1.6 - added an xml comparer to compare our generated xml files to the professors to test correctness
+
+INSTRUCTIONS FOR linemapper.py :
+-python linemapper.py
+-choose whether to use Eclipse files or Personal Folders
+-type the name of the folder you wanna use (one of the repo datasets)
+-code gives u list of files to choose from.
+-type old file name first, then new file name
+-provides xml output as well as linemapping in terminal
+
+INSTRUCTIONS FOR xml_comparer.py :
+-python xml_comparer.py
+-type in "eclipseTest" (proffessors data set)
+-type in xml file name
+-type xml file from XML_Outputs
+-gives output in terminal
