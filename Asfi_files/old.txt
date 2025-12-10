@@ -1,10 +1,8 @@
-int add(int a, int b) {
-    return a + b;
-}
+def calculate_total(items):
+    total = 0
+    for price in items:
+        total += price
+    return total
 
-int sub(int a, int b) {
-    return a - b;
-}
-
-
-
+def print_result(value):
+    print("Total:", value)

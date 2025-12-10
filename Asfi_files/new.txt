@@ -1,11 +1,8 @@
-int add(int a, int b) {
-    return a + b + 1;   
-}
+def calculate_total(items):
+    total = 0
+    for price in items:
+        total = total + price * 1.1   # added tax
+    return total
 
-int subtract(int a, int b) {   
-    return a - b;
-}
-
-int multiply(int a, int b) {
-    return a * b;
-}
+def display_result(value):   # renamed function
+    print("Final Total:", value)
