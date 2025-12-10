@@ -16,6 +16,8 @@ Version 1.5: Added an XML output ,made it so it saves locally in a folder called
 
 version 1.6 - added an xml comparer to compare our generated xml files to the professors to test correctness -anas
 
+_____________________________________________________________________________________________________________________________________________________________________________________
+
 INSTRUCTIONS FOR linemapper.py :
 -python linemapper.py
 -choose whether to use Eclipse files or Personal Folders
