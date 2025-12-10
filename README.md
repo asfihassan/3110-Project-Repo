@@ -12,4 +12,4 @@ Version 1.3: Added colored output to linemapping.py for better output visualizat
 
 Version 1.4: Added input validation to prevent empty file names or invalid folder selections. Improved user prompts and added inline comments explaining each major function. Committed by Kavish.
 
-Version 1.5: Added an XML output ,made it so it saves locally in a folder called XML_Outputs (hence if pushed wont look messy, can have it handy to just compare.)
+Version 1.5: Added an XML output ,made it so it saves locally in a folder called XML_Outputs (hence if pushed wont look messy, can have it handy to just compare.)-kavish
