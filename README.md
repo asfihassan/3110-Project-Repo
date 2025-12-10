@@ -14,7 +14,7 @@ Version 1.4: Added input validation to prevent empty file names or invalid folde
 
 Version 1.5: Added an XML output ,made it so it saves locally in a folder called XML_Outputs (hence if pushed wont look messy, can have it handy to just compare.)-kavish
 
-version 1.6 - added an xml comparer to compare our generated xml files to the professors to test correctness
+version 1.6 - added an xml comparer to compare our generated xml files to the professors to test correctness -anas
 
 INSTRUCTIONS FOR linemapper.py :
 -python linemapper.py
