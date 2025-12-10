@@ -153,7 +153,10 @@ def select_folder():
     choice = safe_input("Choose option (1/2): ")
 
     if choice == "1":
-        return "../eclipseTest/"
+        folder_path = "../eclipseTest/"
+        print(f"\nUsing default folder: {folder_path}")
+        list_files_in_folder(folder_path)   # <<< ADDED HERE
+        return folder_path
 
     elif choice == "2":
         folder_name = safe_input("Enter folder name: ")
